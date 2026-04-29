@@ -265,9 +265,13 @@ var App = {
   },
 
   speak(text) {
-    var a = new Audio('https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=ms&q=' + encodeURIComponent(text))
-    a.volume = 1.0
-    a.play().catch(function(){})
+    if (window.speechSynthesis) {
+      var u = new SpeechSynthesisUtterance(text)
+      u.lang = 'ms'
+      u.volume = 1
+      u.rate = 0.9
+      speechSynthesis.speak(u)
+    }
   },
 
   downloadCard(w) {
