@@ -265,22 +265,19 @@ var App = {
   },
 
   speak(text) {
-    var url = 'https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=ms&q=' + encodeURIComponent(text)
-    fetch(url, { headers: { 'User-Agent': navigator.userAgent, 'Referer': location.origin } }).then(function(r) {
-      if (r.ok) {
-        r.blob().then(function(b) {
-          var a = new Audio(URL.createObjectURL(b))
-          a.volume = 1
-          a.play().catch(function(){})
-        })
-      }
-    }).catch(function() {
+    var q = encodeURIComponent(text)
+    var url = 'https://translate.google.com/translate_tts?ie=UTF-8&client=gtx&tl=ms&q=' + q
+    var a = new Audio(url)
+    a.volume = 1
+    var fb = function() {
       if (window.speechSynthesis) {
         var u = new SpeechSynthesisUtterance(text)
         u.lang = 'ms'; u.volume = 1; u.rate = 0.9
         speechSynthesis.speak(u)
       }
-    })
+    }
+    a.addEventListener('error', fb)
+    a.play().catch(fb)
   },
 
   downloadCard(w) {

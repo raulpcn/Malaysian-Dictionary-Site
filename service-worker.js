@@ -1,4 +1,4 @@
-var CACHE = 'ms-dict-v5'
+var CACHE = 'ms-dict-v6'
 var URLS = ['index.html','css/style.css','js/app.js','js/data.js','js/progress.js','js/favorites.js','js/playlist.js','manifest.json','icon.svg']
 
 self.addEventListener('install', function(e) {
@@ -15,7 +15,7 @@ self.addEventListener('fetch', function(e) {
   e.respondWith(
     caches.match(e.request).then(function(r) {
       return r || fetch(e.request).then(function(res) {
-        if (e.request.url.indexOf('http') === 0) {
+        if (e.request.url.indexOf('http') === 0 && res.ok) {
           var cacheRes = res.clone()
           caches.open(CACHE).then(function(c) { c.put(e.request, cacheRes) })
         }
