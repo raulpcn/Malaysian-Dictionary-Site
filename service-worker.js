@@ -10,8 +10,8 @@ self.addEventListener('fetch', function(e) {
     caches.match(e.request).then(function(r) {
       return r || fetch(e.request).then(function(res) {
         if (e.request.url.indexOf('http') === 0) {
-          var c2 = caches.open(CACHE)
-          c2.then(function(c) { c.put(e.request, res.clone()) })
+          var cacheRes = res.clone()
+          caches.open(CACHE).then(function(c) { c.put(e.request, cacheRes) })
         }
         return res
       })
