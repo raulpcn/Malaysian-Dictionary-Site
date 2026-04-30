@@ -919,7 +919,7 @@ var App = {
     var g = this.goalGet()
     var d = document.createElement('div')
     d.className = 'goal-dlg'
-    d.innerHTML = '<div class="goal-dlg-b"><div class="goal-dlg-h">Set Daily Goal</div><label class="goal-dlg-l">Words per day</label><select id="goalSelect" class="qs"><option value="5"' + (g.target === 5 ? ' selected' : '') + '>5 words</option><option value="10"' + (g.target === 10 ? ' selected' : '') + '>10 words</option><option value="15"' + (g.target === 15 ? ' selected' : '') + '>15 words</option><option value="20"' + (g.target === 20 ? ' selected' : '') + '>20 words</option><option value="30"' + (g.target === 30 ? ' selected' : '') + '>30 words</option><option value="50"' + (g.target === 50 ? ' selected' : '') + '>50 words</option></select><button class="btn-p" id="goalSaveBtn">Save</button></div>'
+    d.innerHTML = '<div class="goal-dlg-b"><div class="goal-dlg-h">Set Daily Goal</div><label class="goal-dlg-l" for="goalSelect">Words per day</label><select id="goalSelect" class="qs"><option value="5"' + (g.target === 5 ? ' selected' : '') + '>5 words</option><option value="10"' + (g.target === 10 ? ' selected' : '') + '>10 words</option><option value="15"' + (g.target === 15 ? ' selected' : '') + '>15 words</option><option value="20"' + (g.target === 20 ? ' selected' : '') + '>20 words</option><option value="30"' + (g.target === 30 ? ' selected' : '') + '>30 words</option><option value="50"' + (g.target === 50 ? ' selected' : '') + '>50 words</option></select><button class="btn-p" id="goalSaveBtn">Save</button></div>'
     document.body.appendChild(d)
     d.querySelector('#goalSaveBtn').onclick = function() {
       var g = App.goalGet()
