@@ -1,4 +1,4 @@
-var CACHE = 'ms-dict-v6'
+var CACHE = 'ms-dict-v7'
 var URLS = ['index.html','css/style.css','js/app.js','js/data.js','js/progress.js','js/favorites.js','js/playlist.js','manifest.json','icon.svg']
 
 self.addEventListener('install', function(e) {

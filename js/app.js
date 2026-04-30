@@ -1,11 +1,12 @@
 var App = {
-  tab: 'home', cat: null,
+  tab: 'home', cat: null, _speaking: false,
 
   init() {
     if (location.protocol !== 'file:') {
       var l = document.createElement('link'); l.rel = 'manifest'; l.href = 'manifest.json'; document.head.appendChild(l)
       if ('serviceWorker' in navigator) navigator.serviceWorker.register('service-worker.js')
     }
+    var wu = new Image(); wu.src = 'https://translate.google.com/favicon.ico'
     this.shell()
     this.go('home')
   },
@@ -265,19 +266,28 @@ var App = {
   },
 
   speak(text) {
-    var q = encodeURIComponent(text)
-    var url = 'https://translate.google.com/translate_tts?ie=UTF-8&client=gtx&tl=ms&q=' + q
-    var a = new Audio(url)
+    if (this._speaking) return
+    var clean = text.replace(/[?.,!;:'"()\-]/g, '').trim()
+    if (!clean) return
+    var url = 'https://translate.google.com/translate_tts?ie=UTF-8&client=gtx&tl=ms&q=' + encodeURIComponent(clean)
+    var a = this._audio
+    if (!a) {
+      a = new Audio()
+      this._audio = a
+      a.addEventListener('ended', function() { App._speaking = false })
+      a.addEventListener('error', function() { App._speaking = false })
+    }
+    this._speaking = true
+    a.src = url
     a.volume = 1
-    var fb = function() {
+    a.play().catch(function() {
+      App._speaking = false
       if (window.speechSynthesis) {
-        var u = new SpeechSynthesisUtterance(text)
+        var u = new SpeechSynthesisUtterance(clean)
         u.lang = 'ms'; u.volume = 1; u.rate = 0.9
         speechSynthesis.speak(u)
       }
-    }
-    a.addEventListener('error', fb)
-    a.play().catch(fb)
+    })
   },
 
   downloadCard(w) {
